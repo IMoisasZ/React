@@ -1,0 +1,19 @@
+{
+  "name": "back-end-react-flash-card-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "json-server --watch flashcards.json --port 3001"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "json-server": "0.17.0"
+  },
+  "dependencies": {
+    "uuid": "8.3.2"
+  }
+}
