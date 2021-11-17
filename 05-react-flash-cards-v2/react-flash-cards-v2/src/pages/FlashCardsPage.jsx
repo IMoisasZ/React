@@ -16,6 +16,7 @@ import RadioButton from '../components/RadioButton';
 
 import { helperShuffleArray } from '../helpers/arrayHelpers';
 import { apiGetAllFlashCards } from '../services/apiServices';
+import { getNewId } from '../services/idService';
 
 export default function FlashCardsPage() {
   // Back end
@@ -128,9 +129,9 @@ export default function FlashCardsPage() {
     setSelectedFlashCard(null)
   }
 
-  function handlePersist(createMode, title, description){
+  function handlePersist(title, description){
     if(createMode){
-      console.log('inserção');
+      setAllCards([...allCards, {id: getNewId(), title, description}])
     }else{
       console.log('edição');
     }
@@ -164,7 +165,7 @@ export default function FlashCardsPage() {
           <div>
             <Button className='my-4' onButtonClick={handleNewFlashCard}>Novo Flash Card</Button>
           </div>
-          <FlashCardForm createMode={createMode} onPersist={handlePersist}/>
+          <FlashCardForm createMode={createMode} onPersist={handlePersist}>{selectedFlashCard}</FlashCardForm>
         </TabPanel>
         <TabPanel>
         <div className="text-center mb-4">
