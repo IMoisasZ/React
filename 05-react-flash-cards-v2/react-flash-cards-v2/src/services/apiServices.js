@@ -1,8 +1,10 @@
-import { get } from "./httpServer";
-
-const BACK_END_URL = 'http://localhost:3001/flashcards'
+import { read, exclude } from "./httpServer";
 
 export async function apiGetAllFlashCards(){
-    const allFlashCards = await get(BACK_END_URL)
+    const allFlashCards = await read('/flashCards')
     return allFlashCards
+}
+
+export async function apiDeleteFlashCard(cardId){
+    await exclude(`/flashCards/${cardId}`)
 }

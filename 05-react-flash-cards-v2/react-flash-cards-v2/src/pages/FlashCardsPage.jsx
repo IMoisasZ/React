@@ -15,7 +15,7 @@ import Main from '../components/Main';
 import RadioButton from '../components/RadioButton';
 
 import { helperShuffleArray } from '../helpers/arrayHelpers';
-import { apiGetAllFlashCards } from '../services/apiServices';
+import { apiDeleteFlashCard, apiGetAllFlashCards } from '../services/apiServices';
 import { getNewId } from '../services/idService';
 
 export default function FlashCardsPage() {
@@ -110,8 +110,17 @@ export default function FlashCardsPage() {
     setStudyCards(updatedCards);
   }
 
-  function handleDeleteFlashCard(cardId){
-    setAllCards(allCards.filter(card => card.id !== cardId))
+  async function handleDeleteFlashCard(cardId){
+    try {
+      // BackEnd
+      await apiDeleteFlashCard(cardId)
+      // ForntEnd
+      setAllCards(allCards.filter(card => card.id !== cardId))
+      setError('')
+      
+    } catch (error) {
+      setError(error.message)
+    }
   }
 
   function handleEditFlashCard(card){
@@ -133,7 +142,14 @@ export default function FlashCardsPage() {
     if(createMode){
       setAllCards([...allCards, {id: getNewId(), title, description}])
     }else{
-      console.log('edição');
+      setAllCards(allCards.map(card => {
+        if(card.id === selectedFlashCard.id){
+          return ( { ...card, title, description })
+        }
+        return card
+      }))
+      setSelectedFlashCard(null)
+      setCreateMode(true)
     }
   }
   let mainJsx =  (
@@ -146,7 +162,7 @@ export default function FlashCardsPage() {
     mainJsx = <Error>{error}</Error>
   }
 
-  if(!loading){
+  if(!loading && !error){
     mainJsx = 
     <>
       <Tabs selectedIndex={selectedTab} onSelect={handleTabSelect}>
