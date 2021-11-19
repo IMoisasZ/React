@@ -1,9 +1,9 @@
 {
   "flashcards": [
     {
-      "id": "2836624a-b0a5-47a0-b0e0-5d3f0d87dd80",
       "title": "Componente React",
-      "description": "Representa código reutilizável pelo React. Em regra, deve começar com letra maiúscula. Pode ser customizável através de props"
+      "description": "Representa código reutilizável pelo React. Em regra, deve começar com letra maiúscula. Pode ser customizável através de props",
+      "id": "2836624a-b0a5-47a0-b0e0-5d3f0d87dd80"
     },
     {
       "id": "2732fecd-30a5-4e8a-aaa1-c2e0ee4be3f6",

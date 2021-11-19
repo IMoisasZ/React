@@ -15,8 +15,7 @@ import Main from '../components/Main';
 import RadioButton from '../components/RadioButton';
 
 import { helperShuffleArray } from '../helpers/arrayHelpers';
-import { apiDeleteFlashCard, apiGetAllFlashCards } from '../services/apiServices';
-import { getNewId } from '../services/idService';
+import { apiCreateFlashCard, apiDeleteFlashCard, apiGetAllFlashCards, apiUpdateFlashCard } from '../services/apiServices';
 
 export default function FlashCardsPage() {
   // Back end
@@ -138,18 +137,34 @@ export default function FlashCardsPage() {
     setSelectedFlashCard(null)
   }
 
-  function handlePersist(title, description){
+  async function handlePersist(title, description){
     if(createMode){
-      setAllCards([...allCards, {id: getNewId(), title, description}])
+      try {
+        // BackEnd
+        const newFlashCard = await apiCreateFlashCard(title, description)
+        // FrontEnd
+        setAllCards([...allCards, newFlashCard])
+        setError('')
+      } catch (error) {
+        setError(error.message)
+      }
     }else{
-      setAllCards(allCards.map(card => {
-        if(card.id === selectedFlashCard.id){
-          return ( { ...card, title, description })
-        }
-        return card
-      }))
-      setSelectedFlashCard(null)
-      setCreateMode(true)
+      try {
+        // BackEnd
+        await apiUpdateFlashCard(selectedFlashCard.id, title, description)
+        // FrontEnd
+        setAllCards(allCards.map(card => {
+          if(card.id === selectedFlashCard.id){
+            return ( { ...card, title, description })
+          }
+          return card
+        }))
+        setSelectedFlashCard(null)
+        setCreateMode(true)
+        setError('')
+      } catch (error) {
+        setError(error.message)
+      }
     }
   }
   let mainJsx =  (
